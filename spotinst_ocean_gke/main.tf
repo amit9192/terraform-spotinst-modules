@@ -122,7 +122,7 @@ resource "null_resource" "remove_node_pools_capacity" {
   provisioner "local-exec" {
     command = <<EOT
       gcloud container clusters get-credentials ${var.cluster_name} --region ${var.location}
-      gcloud container node-pools list --cluster amit-test --region ${var.location} | sed 's/|/ /' | awk '{print $1}' > node-pools.txt
+      gcloud container node-pools list --cluster ${var.cluster_name} --region ${var.location} | sed 's/|/ /' | awk '{print $1}' > node-pools.txt
       chmod +x ../scripts/resize_nodepools.sh
       ../scripts/resize_nodepools.sh ${var.cluster_name} ${var.location}
     EOT
